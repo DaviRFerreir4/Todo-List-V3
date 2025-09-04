@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue"
+import { ref, type Ref } from "vue"
 
 const props = defineProps({
   inputType: { type: String, required: true },
@@ -36,7 +36,7 @@ const props = defineProps({
   labelText: { type: String, required: true },
 })
 
-const inputValue = ref("")
+const inputValue: Ref = ref("")
 const emits = defineEmits(["recoverValue"])
 </script>
 
@@ -51,6 +51,9 @@ textarea {
   border-radius: 0.5rem;
 
   background-color: var(--bg-color);
+
+  transition: background-color, border-color, color;
+  transition-duration: 0.35s;
 
   &::placeholder {
     color: var(--font-color);

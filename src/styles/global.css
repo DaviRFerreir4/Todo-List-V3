@@ -39,6 +39,8 @@ body {
   background-color: var(--bg-color);
   color: var(--todo-font-color);
   font: var(--font-md);
+
+  transition: background-color 0.35s;
 }
 
 a {

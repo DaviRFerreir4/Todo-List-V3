@@ -1,18 +1,36 @@
 <template>
   <div class="flex align-center gap-0.75">
-    <input
-      type="checkbox"
-      :name="props.inputName"
-      :id="props.inputId"
-      v-model="inputValue"
-      @change="$emit('recoverValue', inputValue)"
-    />
+    <div class="grid">
+      <input
+        type="checkbox"
+        :name="props.inputName"
+        :id="props.inputId"
+        v-model="inputValue"
+        @change="$emit('recoverValue', inputValue)"
+        class="grid-stack"
+      />
+      <svg
+        width="12"
+        height="9"
+        viewBox="0 0 12 9"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        class="grid-stack"
+      >
+        <path
+          d="M11.3333 0.5L3.99996 7.83333L0.666626 4.5"
+          stroke="#25273C"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </div>
     <label :for="props.inputId">{{ props.labelText }}</label>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue"
+import { ref, type Ref } from "vue"
 
 const props = defineProps({
   inputId: String,
@@ -20,34 +38,56 @@ const props = defineProps({
   labelText: String,
 })
 
-const inputValue = ref(false)
+const inputValue: Ref = ref(false)
 const emits = defineEmits(["recoverValue"])
 </script>
 
 <style scoped>
 input[type="checkbox"] {
   all: unset;
-  position: relative;
   width: 1rem;
   height: 1rem;
-  background-color: var(--bg-color);
-  border-radius: 0.25rem;
   border: 1px solid var(--todo-border-color);
-  transition: background 0.2s, backgroud-color 0.2s;
+  border-radius: 0.25rem;
+  grid-row: 1/2;
+  grid-column: 1/2;
+
+  background-color: var(--bg-color);
+
+  transition: background 0.2s, backgroud-color 0.2s, border-color 0.35s;
 
   &:checked {
     background-color: var(--todo-font-color);
+  }
 
-    &::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: no-repeat center/80% url(../../assets/icons/Icon.svg);
-    }
+  &:checked + svg {
+    opacity: 1;
+  }
+}
+
+svg {
+  opacity: 0;
+
+  grid-row: 1/2;
+  grid-column: 1/2;
+  z-index: 1;
+  align-self: center;
+  justify-self: center;
+
+  pointer-events: none;
+
+  transition: opacity 0.2s;
+
+  path {
+    stroke: var(--todo-bg-color);
+
+    transition: stroke 0.35s;
   }
 }
 
 label {
   font: var(--font-xs);
+
+  transition: color 0.35s;
 }
 </style>
