@@ -1,21 +1,26 @@
-import type { TMode } from "@/types/TMode"
+// Importação de assets
 import logoDark from "@/assets/todo-logo-dark.svg"
 import logoLight from "@/assets/todo-logo-light.svg"
 import iconDark from "@/assets/icons/icon-moon.svg"
 import iconLight from "@/assets/icons/icon-sun.svg"
 
-export function toggleMode() {
+// Função para trocar modo
+export function toggleMode(): string | null {
+  // Recupera o body e alterna a classe dark-mode
   const body: Element | null = document.querySelector("body")
   body ? body.classList.toggle("dark-mode") : ""
+  // Troca as preferências de modo no localStorage
   if (localStorage.getItem("mode") === "dark") {
     localStorage.setItem("mode", "light")
   } else {
     localStorage.setItem("mode", "dark")
   }
+  // Retorna o modo para troca da src das imagens
   return localStorage.getItem("mode")
 }
 
-export function toggleLogo(mode: TMode) {
+// Alterna o logo entre dark e light baseado no modo ativo
+export function toggleLogo(mode: null | string): string {
   if (mode === "dark") {
     return logoDark
   } else {
@@ -23,7 +28,8 @@ export function toggleLogo(mode: TMode) {
   }
 }
 
-export function toggleIcon(mode: TMode) {
+// Alterna o icone de modo entre dark e light baseado no modo ativo
+export function toggleIcon(mode: null | string): string {
   if (mode === "dark") {
     return iconDark
   } else {

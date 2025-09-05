@@ -9,7 +9,7 @@
       :required="props.inputRequired"
       v-model.lazy="inputValue"
       v-if="props.inputType === 'text' || props.inputType === 'password'"
-      @focusout="$emit('recoverValue', inputValue)"
+      @change="$emit('recoverValue', inputValue)"
     />
     <textarea
       :name="props.inputName"
@@ -19,7 +19,7 @@
       :required="props.inputRequired"
       v-model.lazy="inputValue"
       v-if="props.inputType === 'textarea'"
-      @focusout="$emit('recoverValue', inputValue)"
+      @change="$emit('recoverValue', inputValue)"
     ></textarea>
   </div>
 </template>

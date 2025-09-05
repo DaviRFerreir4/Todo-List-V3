@@ -34,3 +34,7 @@
 .gap-0\.75 {
   gap: 0.75rem;
 }
+
+.no-transition {
+  transition-property: none;
+}

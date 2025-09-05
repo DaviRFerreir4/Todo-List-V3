@@ -8,8 +8,18 @@
 import { onBeforeMount } from "vue"
 
 onBeforeMount(() => {
+  const allElements: NodeListOf<Element> = document.querySelectorAll("*")
+  const body: HTMLBodyElement | null = document.querySelector("body")
   if (localStorage.getItem("mode") === "dark") {
-    document.querySelector("body")?.classList.add("dark-mode")
+    allElements.forEach((element) => {
+      element.classList.toggle("no-transition")
+    })
+    body ? body.classList.add("dark-mode") : ""
+    setTimeout(() => {
+      allElements.forEach((element) => {
+        element.classList.toggle("no-transition")
+      })
+    }, 1000)
   }
 })
 </script>
