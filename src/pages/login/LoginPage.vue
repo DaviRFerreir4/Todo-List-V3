@@ -56,10 +56,10 @@ import { useAuthStore } from "@/stores/authStore"
 // Importações do vue
 import { ref } from "vue"
 
-// Importações de terceiros
+// Importações de pactoes
 import { useRouter } from "vue-router"
 
-// Importação de tipos (primeiro terceiros, depois próprios)
+// Importação de tipos (primeiro de pacotes, depois próprios)
 import type { Ref } from "vue"
 import type { User } from "@/interfaces/IUser"
 import type { Router } from "vue-router"

@@ -55,7 +55,7 @@ export const router = createRouter({
     },
     {
       // Redireciona qualquer caminho não especificado para rota not found
-      path: "/:catchAll(.*)",
+      path: "/:pathMatch(.*)*",
       redirect: { name: "not-found" },
     },
   ],

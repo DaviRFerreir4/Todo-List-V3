@@ -1,10 +1,11 @@
 // Importações do vue
 import { reactive, ref } from "vue"
 
-// Importações de terceiros
+// Importações de pacotes
 import { defineStore } from "pinia"
+import { useRouter } from "vue-router"
 
-// Importações de tipos (primeiro terceiros, depois próprios)
+// Importações de tipos (primeiro de pacotes, depois próprios)
 import type { Reactive, Ref } from "vue"
 import type { User } from "@/interfaces/IUser"
 
@@ -12,6 +13,7 @@ export const useAuthStore = defineStore("authStore", () => {
   // Variaveis de controle de usuário
   const user: Reactive<Omit<Partial<User>, "password">> = reactive({})
   const isLoggedIn: Ref<boolean> = ref(false)
+  const router = useRouter()
 
   // Função para recuperar usuários da API
   async function getUsers(): Promise<User[] | null> {
@@ -61,7 +63,7 @@ export const useAuthStore = defineStore("authStore", () => {
   }
 
   // Função para deslogar o usuário (usada no app e em casos de cookies remanescentes sem dados de um usuário)
-  function logout(): void {
+  function logout(redirect: boolean = false): void {
     Object.assign(user, {
       id: "",
       login: "",
@@ -73,6 +75,9 @@ export const useAuthStore = defineStore("authStore", () => {
     isLoggedIn.value = false
     deleteCookie("user_id")
     deleteCookie("is_logged_in")
+    if (redirect) {
+      router.push({ name: "login" })
+    }
   }
 
   return { user, isLoggedIn, getUsers, login, logout }

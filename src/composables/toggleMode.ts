@@ -1,6 +1,8 @@
 // Importação de assets
 import logoDark from "@/assets/todo-logo-dark.svg"
 import logoLight from "@/assets/todo-logo-light.svg"
+import logoDarkCut from "@/assets/todo-logo-dark-cut.svg"
+import logoLightCut from "@/assets/todo-logo-light-cut.svg"
 import iconDark from "@/assets/icons/icon-moon.svg"
 import iconLight from "@/assets/icons/icon-sun.svg"
 
@@ -19,12 +21,12 @@ export function toggleMode(): string | null {
   return localStorage.getItem("mode")
 }
 
-// Alterna o logo entre dark e light baseado no modo ativo
-export function toggleLogo(mode: null | string): string {
+// Alterna o logo entre dark e light baseado no modo ativo e se ele é cortado ou não
+export function toggleLogo(mode: null | string, cut: boolean = false): string {
   if (mode === "dark") {
-    return logoDark
+    return cut ? logoDarkCut : logoDark
   } else {
-    return logoLight
+    return cut ? logoLightCut : logoLight
   }
 }
 

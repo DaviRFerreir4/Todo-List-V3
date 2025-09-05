@@ -1,8 +1,10 @@
 <template>
+  <!-- Botão -->
   <button>{{ props.buttonText }}</button>
 </template>
 
 <script setup lang="ts">
+// Recebendo props do elemento pai
 const props = defineProps({
   buttonText: String,
 })

@@ -1,6 +1,9 @@
 <template>
+  <!-- Container -->
   <div class="grid gap-0.5">
+    <!-- Label -->
     <label :for="props.inputId">{{ props.labelText }}</label>
+    <!-- Input text e password caso requerido (v-if) -->
     <input
       :type="props.inputType"
       :name="props.inputName"
@@ -11,6 +14,7 @@
       v-if="props.inputType === 'text' || props.inputType === 'password'"
       @change="$emit('recoverValue', inputValue)"
     />
+    <!-- Textarea caso requerida (v-if) -->
     <textarea
       :name="props.inputName"
       :id="props.inputId"
@@ -25,8 +29,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, type Ref } from "vue"
+// Importações do vue
+import { ref } from "vue"
 
+// Importações de tipos
+import type { Ref } from "vue"
+
+// Recebendo props do elemento pai
 const props = defineProps({
   inputType: { type: String, required: true },
   inputName: { type: String, required: true },
@@ -36,7 +45,8 @@ const props = defineProps({
   labelText: { type: String, required: true },
 })
 
-const inputValue: Ref = ref("")
+// Definindo a variável referente ao valor do input e emit caso o valor mude
+const inputValue: Ref<string> = ref("")
 const emits = defineEmits(["recoverValue"])
 </script>
 

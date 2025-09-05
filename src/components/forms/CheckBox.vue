@@ -1,6 +1,9 @@
 <template>
+  <!-- Container -->
   <div class="flex align-center gap-0.75">
+    <!-- Container do input -->
     <div class="grid">
+      <!-- Input checkbox -->
       <input
         type="checkbox"
         :name="props.inputName"
@@ -9,6 +12,7 @@
         @change="$emit('recoverValue', inputValue)"
         class="grid-stack"
       />
+      <!-- Svg (Icone de check) -->
       <svg
         width="12"
         height="9"
@@ -25,20 +29,27 @@
         />
       </svg>
     </div>
+    <!-- Label -->
     <label :for="props.inputId">{{ props.labelText }}</label>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, type Ref } from "vue"
+// Importações do vue
+import { ref } from "vue"
 
+// Importações de tipos
+import type { Ref } from "vue"
+
+// Recebendo props do elemento pai
 const props = defineProps({
   inputId: String,
   inputName: String,
   labelText: String,
 })
 
-const inputValue: Ref = ref(false)
+// Definindo a variável referente ao valor do input e emit caso o valor mude
+const inputValue: Ref<boolean> = ref(false)
 const emits = defineEmits(["recoverValue"])
 </script>
 
