@@ -2,10 +2,17 @@
   <!-- Container global (grid é alterado quando o usuário loga) -->
   <div
     class="container grid"
-    :class="authStore.isLoggedIn ? 'user-logged-in' : ''"
+    :class="
+      (authStore.isLoggedIn ? 'user-logged-in' : '') ||
+      (router.currentRoute.value.name === 'no-access' ? 'no-access' : '')
+    "
   >
     <!-- Header só é mostrado quando usuário está logado -->
-    <Header v-if="authStore.isLoggedIn"></Header>
+    <Header
+      v-if="
+        authStore.isLoggedIn || router.currentRoute.value.name === 'no-access'
+      "
+    ></Header>
     <!-- SidebarNav só é mostrada quando usuário está logado -->
     <SidebarNav v-if="authStore.isLoggedIn"></SidebarNav>
     <!-- Rota da aplicação -->
@@ -21,11 +28,17 @@ import SidebarNav from "@/components/navigation/SidebarNav.vue"
 // Importações do vue
 import { onBeforeMount } from "vue"
 
+// Importação de pacotes
+import { useRouter } from "vue-router"
+
 // Importação da store de autenticação
 import { useAuthStore } from "./stores/authStore"
 
-// Declaração da store de autenticação
+// Declaração da store de autenticação e da variavel de controle de rota
+const router = useRouter()
 const authStore = useAuthStore()
+
+console.log(authStore.isLoggedIn)
 
 // Método para retirar transições da página antes de carregamento dela (pra se caso o usuário estiver no modo escuro não ter transição quando ele entrar no app novamente)
 onBeforeMount(() => {
@@ -51,13 +64,19 @@ onBeforeMount(() => {
 <style scoped>
 .container {
   min-height: 100vh;
+  grid-template-columns: clamp(12rem, 25%, 30rem) 1fr;
+  grid-template-rows: clamp(5rem, 8.5vh, 6rem) 1fr;
 }
 
 .user-logged-in {
   grid-template-areas:
     "header header"
     "aside main";
-  grid-template-columns: clamp(12rem, 25%, 30rem) 1fr;
-  grid-template-rows: clamp(5rem, 8.5vh, 6rem) 1fr;
+}
+
+.no-access {
+  grid-template-areas:
+    "header header"
+    "main main";
 }
 </style>

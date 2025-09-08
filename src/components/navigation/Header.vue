@@ -11,10 +11,13 @@
         id="mode-icon"
         @click="mode = toggleMode()"
       />
-      <!-- Span de usuário -->
-      <span>Hello, {{ authStore.user.username?.name }}</span>
-      <!-- Span de logout -->
-      <span @click="authStore.logout(true)">Logout</span>
+      <div class="flex align-center gap-2" v-if="authStore.isLoggedIn">
+        <!-- Span de usuário -->
+        <span>Hello, {{ authStore.user.username?.name }}</span>
+        <!-- Span de logout -->
+        <span @click="authStore.logout(true)">Logout</span>
+      </div>
+      <span v-else>Not cool man :(</span>
     </div>
   </header>
 </template>
@@ -51,7 +54,7 @@ header {
     height: 2rem;
   }
 
-  span:nth-child(3) {
+  & > div > div span:nth-child(2) {
     color: var(--danger);
     cursor: pointer;
   }

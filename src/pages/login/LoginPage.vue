@@ -112,6 +112,8 @@ async function login(): Promise<void> {
 
 <style scoped>
 main {
+  grid-column: 1/3;
+  grid-row: 1/3;
   justify-items: center;
   margin: auto;
   padding: 1.5rem;
