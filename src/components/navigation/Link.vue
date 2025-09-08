@@ -9,12 +9,15 @@
 </template>
 
 <script setup lang="ts">
+// Importando tipos
+import type { RouteLocationNormalizedLoadedGeneric } from "vue-router"
+
 // Recebendo props do elemento pai
-const props = defineProps({
-  title: String,
-  subtitle: String,
-  link: Object,
-})
+const props = defineProps<{
+  title: string
+  subtitle: string
+  link: Pick<RouteLocationNormalizedLoadedGeneric, "name">
+}>()
 </script>
 
 <style scoped>

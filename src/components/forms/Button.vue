@@ -5,9 +5,9 @@
 
 <script setup lang="ts">
 // Recebendo props do elemento pai
-const props = defineProps({
-  buttonText: String,
-})
+const props = defineProps<{
+  buttonText: string
+}>()
 </script>
 
 <style scoped>

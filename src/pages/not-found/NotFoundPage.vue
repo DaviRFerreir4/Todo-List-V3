@@ -24,6 +24,7 @@
 main {
   justify-items: center;
   margin: 3.125rem 5rem;
+  padding: 1rem;
   border: 1px solid var(--todo-border-color);
   border-radius: 0.5rem;
 

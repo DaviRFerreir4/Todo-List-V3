@@ -25,6 +25,7 @@ main {
   grid-area: main;
   justify-items: center;
   margin: 3.125rem clamp(1rem, 7.3vw, 10rem);
+  padding: 1rem;
   border: 1px solid var(--todo-border-color);
   border-radius: 0.5rem;
 

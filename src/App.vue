@@ -38,8 +38,6 @@ import { useAuthStore } from "./stores/authStore"
 const router = useRouter()
 const authStore = useAuthStore()
 
-console.log(authStore.isLoggedIn)
-
 // Método para retirar transições da página antes de carregamento dela (pra se caso o usuário estiver no modo escuro não ter transição quando ele entrar no app novamente)
 onBeforeMount(() => {
   if (localStorage.getItem("mode") === "dark") {

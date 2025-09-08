@@ -36,14 +36,14 @@ import { ref } from "vue"
 import type { Ref } from "vue"
 
 // Recebendo props do elemento pai
-const props = defineProps({
-  inputType: { type: String, required: true },
-  inputName: { type: String, required: true },
-  inputId: { type: String, required: true },
-  inputPlaceholder: { type: String, required: true },
-  inputRequired: Boolean,
-  labelText: { type: String, required: true },
-})
+const props = defineProps<{
+  inputType: string
+  inputName: string
+  inputId: string
+  inputPlaceholder: string
+  inputRequired?: boolean
+  labelText: string
+}>()
 
 // Definindo a variável referente ao valor do input e emit caso o valor mude
 const inputValue: Ref<string> = ref("")
