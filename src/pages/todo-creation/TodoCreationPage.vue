@@ -1,6 +1,6 @@
 <template>
   <main class="container-child grid justify-center align-center">
-    <form class="grid gap-1" @submit.prevent="">
+    <form class="grid gap-1" @submit.prevent="createTodo">
       <TextInputs
         input-id="todo"
         input-name="todo"
@@ -8,6 +8,7 @@
         input-required
         input-type="text"
         label-text="Todo"
+        @recover-value="todoText = $event"
       ></TextInputs>
       <Select
         input-id="todo-type"
@@ -19,6 +20,7 @@
           { optionValue: 'hobbies', optionText: 'Hobbies' },
         ]"
         required
+        @recover-value="todoType = $event"
       ></Select>
       <TextInputs
         input-id="todo-description"
@@ -27,6 +29,7 @@
         input-required
         input-type="textarea"
         label-text="Todo"
+        @recover-value="todoDesc = $event"
       ></TextInputs>
       <Button button-text="Create"></Button>
     </form>
@@ -38,6 +41,37 @@
 import TextInputs from "@/components/forms/TextInputs.vue"
 import Select from "@/components/forms/Select.vue"
 import Button from "@/components/forms/Button.vue"
+import { ref, type Ref } from "vue"
+import { useTodoStore } from "@/stores/todoStore"
+import { useAuthStore } from "@/stores/authStore"
+import type { Todo } from "@/interfaces/ITodo"
+import type { TodoType } from "@/types/TodoType"
+import { useRouter } from "vue-router"
+
+const authStore = useAuthStore()
+const todoStore = useTodoStore()
+const router = useRouter()
+
+const todoText = ref("")
+const todoType: Ref<TodoType> = ref("")
+const todoDesc = ref("")
+
+async function createTodo() {
+  const newTodo: Todo = {
+    id: new Date().getTime().toString(),
+    isChecked: false,
+    todoDescription: todoDesc.value,
+    todoText: todoText.value,
+    todoType: todoType.value,
+    userId: authStore.user.id ? authStore.user.id : "",
+  }
+  if (newTodo.userId) {
+    if (await todoStore.createTodo(newTodo)) {
+      alert("Todo created with success")
+      router.push({ name: "todo-list" })
+    }
+  }
+}
 </script>
 
 <style scoped>

@@ -26,7 +26,7 @@ import Header from "@/components/navigation/Header.vue"
 import SidebarNav from "@/components/navigation/SidebarNav.vue"
 
 // Importações do vue
-import { onBeforeMount } from "vue"
+import { onBeforeMount, watch } from "vue"
 
 // Importação de pacotes
 import { useRouter } from "vue-router"
@@ -55,6 +55,23 @@ onBeforeMount(() => {
         element.classList.toggle("no-transition")
       })
     }, 1000)
+  }
+})
+
+import { useTodoStore } from "@/stores/todoStore"
+import type { Todo } from "@/interfaces/ITodo"
+
+const todoStore = useTodoStore()
+
+watch(authStore.user, async () => {
+  if (authStore.isLoggedIn) {
+    const todos: Todo[] | null = await todoStore.getData(authStore.user.id)
+    if (todos) {
+      const userTodos: Todo[] = todos.filter(
+        (todo) => todo.userId === authStore.user.id
+      )
+      todoStore.populateTodoList(userTodos)
+    }
   }
 })
 </script>

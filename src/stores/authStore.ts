@@ -18,11 +18,11 @@ export const useAuthStore = defineStore("authStore", () => {
   // Função para recuperar usuários da API
   async function getUsers(): Promise<User[] | null> {
     try {
-      const users: Promise<User[]> = await fetch(
-        "http://localhost:3000/users"
-      ).then(async (res) => {
-        return await res.json()
-      })
+      const users: User[] = await fetch("http://localhost:3000/users").then(
+        async (res) => {
+          return await res.json()
+        }
+      )
       return users
     } catch (error) {
       console.log(error)
