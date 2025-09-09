@@ -26,25 +26,25 @@
           <Link
             title="All"
             subtitle="List all the active and completed todos"
-            :link="{ name: '' }"
+            feature="all"
           ></Link>
           <!-- Link para mostrar todos completos -->
           <Link
             title="Completed"
             subtitle="List only the completed todos"
-            :link="{ name: '' }"
+            feature="completed"
           ></Link>
           <!-- Link para mostrar todos ativos -->
           <Link
             title="Active"
             subtitle="List only the active todos"
-            :link="{ name: '' }"
+            feature="active"
           ></Link>
           <!-- Link para limpar todos os todos -->
           <Link
             title="Clear Completed"
             subtitle="Clear all the todos you have completed"
-            :link="{ name: '' }"
+            feature="clear"
           ></Link>
         </div>
       </div>

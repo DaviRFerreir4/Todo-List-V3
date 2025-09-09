@@ -68,6 +68,14 @@ async function createTodo() {
   if (newTodo.userId) {
     if (await todoStore.createTodo(newTodo)) {
       alert("Todo created with success")
+      todoStore.showTodoTypes.splice(0, todoStore.showTodoTypes.length)
+      todoStore.showTodoTypes.push(newTodo.todoType)
+      localStorage.setItem(
+        "showTodoTypes",
+        JSON.stringify(todoStore.showTodoTypes)
+      )
+      todoStore.showTodoAvaiability = "active"
+      localStorage.setItem("showTodoAvaiability", "active")
       router.push({ name: "todo-list" })
     }
   }

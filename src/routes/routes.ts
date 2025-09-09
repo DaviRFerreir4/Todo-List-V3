@@ -14,6 +14,8 @@ import { useAuthStore } from "@/stores/authStore"
 // Importação do tipo personalizado "User"
 import type { User } from "@/interfaces/IUser"
 
+import { useTodoStore } from "@/stores/todoStore"
+
 export const router = createRouter({
   // Rotas baseadas em caminhos nomeados
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -106,6 +108,18 @@ router.beforeEach(async (to) => {
         const [{ password, ...userNoPass }] = userMatch
         user = userNoPass
         authStore.login(userNoPass, true)
+        const todoStore = useTodoStore()
+        const showTodoTypes = localStorage.getItem("showTodoTypes")
+        if (showTodoTypes) {
+          const showTodoTypesArray: string[] = JSON.parse(showTodoTypes)
+          showTodoTypesArray.forEach((element) => {
+            todoStore.showTodoTypes.push(element)
+          })
+        }
+        const showTodoAvaiability = localStorage.getItem("showTodoAvaiability")
+        if (showTodoAvaiability) {
+          todoStore.showTodoAvaiability = showTodoAvaiability
+        }
       }
     } else {
       // Se API não retornar usuários, houve erro no servidor

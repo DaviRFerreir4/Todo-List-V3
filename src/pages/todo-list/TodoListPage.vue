@@ -10,12 +10,14 @@
     <div
       class="todos grid"
       :class="
-        showTodos.find((todoTitle) => todoTitle === 'tasks') ? 'show-todos' : ''
+        todoStore.showTodoTypes.find((todoTitle) => todoTitle === 'tasks')
+          ? 'show-todos'
+          : ''
       "
     >
       <ul>
         <li
-          v-for="todo in todoStore.todoList.filter(
+          v-for="todo in checkTodoAvaiability(todoStore.todoList).filter(
             (todo) => todo.todoType === 'tasks'
           )"
           :key="todo.id"
@@ -38,14 +40,14 @@
     <div
       class="todos grid"
       :class="
-        showTodos.find((todoTitle) => todoTitle === 'studies')
+        todoStore.showTodoTypes.find((todoTitle) => todoTitle === 'studies')
           ? 'show-todos'
           : ''
       "
     >
       <ul>
         <li
-          v-for="todo in todoStore.todoList.filter(
+          v-for="todo in checkTodoAvaiability(todoStore.todoList).filter(
             (todo) => todo.todoType === 'studies'
           )"
           :key="todo.id"
@@ -69,14 +71,14 @@
     <div
       class="todos grid"
       :class="
-        showTodos.find((todoTitle) => todoTitle === 'hobbies')
+        todoStore.showTodoTypes.find((todoTitle) => todoTitle === 'hobbies')
           ? 'show-todos'
           : ''
       "
     >
       <ul>
         <li
-          v-for="todo in todoStore.todoList.filter(
+          v-for="todo in checkTodoAvaiability(todoStore.todoList).filter(
             (todo) => todo.todoType === 'hobbies'
           )"
           :key="todo.id"
@@ -96,23 +98,36 @@
 <script setup lang="ts">
 import Todos from "@/components/todos/Todos.vue"
 import TodoTypeTitle from "@/components/todos/TodoTypeTitle.vue"
+import type { Todo } from "@/interfaces/ITodo"
 import { useAuthStore } from "@/stores/authStore"
 import { useTodoStore } from "@/stores/todoStore"
-import { reactive } from "vue"
 
 const todoStore = useTodoStore()
 const authStore = useAuthStore()
 
-const showTodos: string[] = reactive(["tasks", "studies", "hobbies"])
-
 function toogleTodos(todoTitle: string) {
-  if (!showTodos.find((todo) => todo === todoTitle)) {
-    showTodos.push(todoTitle)
+  if (!todoStore.showTodoTypes.find((todo) => todo === todoTitle)) {
+    todoStore.showTodoTypes.push(todoTitle)
   } else {
-    const index = showTodos.findIndex((todo) => todo === todoTitle)
-    showTodos.splice(index, 1)
+    const index = todoStore.showTodoTypes.findIndex(
+      (todo) => todo === todoTitle
+    )
+    todoStore.showTodoTypes.splice(index, 1)
   }
-  console.log(showTodos)
+  localStorage.setItem("showTodoTypes", JSON.stringify(todoStore.showTodoTypes))
+  console.log(todoStore.showTodoTypes)
+}
+
+function checkTodoAvaiability(todos: Todo[]): Todo[] {
+  switch (todoStore.showTodoAvaiability) {
+    case "completed":
+      return todos.filter((todo) => todo.isChecked)
+      break
+    case "active":
+      return todos.filter((todo) => !todo.isChecked)
+      break
+  }
+  return todos
 }
 </script>
 

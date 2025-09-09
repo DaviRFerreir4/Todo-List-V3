@@ -75,6 +75,54 @@
       "todoText": "Test",
       "todoType": "hobbies",
       "userId": "d64f3065-0d90-46c1-b953-88ccdd189bf5"
+    },
+    {
+      "id": "1757436209573",
+      "isChecked": false,
+      "todoDescription": "I NEEEEED IT",
+      "todoText": "Play Silksong",
+      "todoType": "hobbies",
+      "userId": "d64f3065-0d90-46c1-b953-88ccdd189bf5"
+    },
+    {
+      "id": "1757436242676",
+      "isChecked": true,
+      "todoDescription": "#SQN",
+      "todoText": "Play league of legends",
+      "todoType": "hobbies",
+      "userId": "d64f3065-0d90-46c1-b953-88ccdd189bf5"
+    },
+    {
+      "id": "1757437478163",
+      "isChecked": false,
+      "todoDescription": "Yeahs",
+      "todoText": "Finish todo features",
+      "todoType": "tasks",
+      "userId": "d64f3065-0d90-46c1-b953-88ccdd189bf5"
+    },
+    {
+      "id": "1757437549526",
+      "isChecked": false,
+      "todoDescription": "Need to study a DB",
+      "todoText": "Study PostgreSQL",
+      "todoType": "studies",
+      "userId": "d64f3065-0d90-46c1-b953-88ccdd189bf5"
+    },
+    {
+      "id": "1757439288185",
+      "isChecked": false,
+      "todoDescription": "asd",
+      "todoText": "Teste de hobbie",
+      "todoType": "hobbies",
+      "userId": "d64f3065-0d90-46c1-b953-88ccdd189bf5"
+    },
+    {
+      "id": "1757440123913",
+      "isChecked": false,
+      "todoDescription": "Task description",
+      "todoText": "Teste de task",
+      "todoType": "tasks",
+      "userId": "d64f3065-0d90-46c1-b953-88ccdd189bf5"
     }
   ]
 }

@@ -6,6 +6,8 @@ import { useAuthStore } from "./authStore"
 
 export const useTodoStore = defineStore("todoStore", () => {
   const todoList: Reactive<Todo[]> = reactive([])
+  const showTodoTypes: Reactive<string[]> = reactive([])
+  const showTodoAvaiability: Ref<string> = ref("")
   const authStore = useAuthStore()
 
   async function getData(userId: string = ""): Promise<Todo[] | null> {
@@ -16,7 +18,7 @@ export const useTodoStore = defineStore("todoStore", () => {
             return await res.json()
           }
         )
-        return dbTodos
+        return dbTodos.reverse()
       }
     } catch (error) {
       console.log(error)
@@ -44,7 +46,7 @@ export const useTodoStore = defineStore("todoStore", () => {
           body: JSON.stringify(newTodo),
         })
       ) {
-        todoList.push(newTodo)
+        todoList.unshift(newTodo)
         return true
       }
     } catch (error) {
@@ -94,6 +96,8 @@ export const useTodoStore = defineStore("todoStore", () => {
 
   return {
     todoList,
+    showTodoTypes,
+    showTodoAvaiability,
     getData,
     populateTodoList,
     createTodo,
