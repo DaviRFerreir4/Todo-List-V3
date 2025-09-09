@@ -78,8 +78,8 @@ watch(authStore.user, async () => {
 
 <style scoped>
 .container {
-  min-height: 100vh;
-  grid-template-columns: clamp(12rem, 25%, 30rem) 1fr;
+  height: 100vh;
+  grid-template-columns: clamp(10rem, 20%, 30rem) 1fr;
   grid-template-rows: clamp(5rem, 8.5vh, 6rem) 1fr;
 }
 

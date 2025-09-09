@@ -31,9 +31,9 @@
     {
       "id": "randomUUID2",
       "userId": "d64f3065-0d90-46c1-b953-88ccdd189bf5",
-      "todoText": "Test",
+      "todoText": "Test 2",
       "todoType": "tasks",
-      "todoDescription": "Random text just for a test",
+      "todoDescription": "Random task for tests",
       "isChecked": false
     },
     {
@@ -50,6 +50,30 @@
       "todoDescription": "Continue my studies in Node to finally get to understand more about backend development",
       "todoText": "Study Node",
       "todoType": "studies",
+      "userId": "d64f3065-0d90-46c1-b953-88ccdd189bf5"
+    },
+    {
+      "id": "1757429147820",
+      "isChecked": true,
+      "todoDescription": "Study from Rocketseat and FreeCodeCamp.org",
+      "todoText": "Study Vue",
+      "todoType": "studies",
+      "userId": "d64f3065-0d90-46c1-b953-88ccdd189bf5"
+    },
+    {
+      "id": "1757429332455",
+      "isChecked": true,
+      "todoDescription": "It's taking a really long time... Starting to drive me insane",
+      "todoText": "Finish Todo List",
+      "todoType": "tasks",
+      "userId": "d64f3065-0d90-46c1-b953-88ccdd189bf5"
+    },
+    {
+      "id": "1757429448602",
+      "isChecked": false,
+      "todoDescription": "Test description",
+      "todoText": "Test",
+      "todoType": "hobbies",
       "userId": "d64f3065-0d90-46c1-b953-88ccdd189bf5"
     }
   ]

@@ -11,7 +11,11 @@
       :required="props.required"
     >
       <option value="" disabled hidden selected>Choose:</option>
-      <option :value="option.optionValue" v-for="option in props.options">
+      <option
+        :value="option.optionValue"
+        v-for="option in props.options"
+        :key="option.optionValue"
+      >
         {{ option.optionText }}
       </option>
     </select>

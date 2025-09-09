@@ -53,5 +53,51 @@ export const useTodoStore = defineStore("todoStore", () => {
     return false
   }
 
-  return { todoList, getData, populateTodoList, createTodo }
+  async function updateTodoState(
+    todoId: string,
+    value: boolean
+  ): Promise<boolean> {
+    try {
+      if (
+        await fetch(`http://localhost:3000/todos/${todoId}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ isChecked: value }),
+        })
+      ) {
+        return true
+      }
+    } catch (error) {
+      console.log(error)
+    }
+    return false
+  }
+
+  async function deleteTodo(todoId: string): Promise<boolean> {
+    try {
+      if (
+        await fetch(`http://localhost:3000/todos/${todoId}`, {
+          method: "DELETE",
+        })
+      ) {
+        const index = todoList.findIndex((todo) => todo.id === todoId)
+        todoList.splice(index, 1)
+        return true
+      }
+    } catch (error) {
+      console.log(error)
+    }
+    return false
+  }
+
+  return {
+    todoList,
+    getData,
+    populateTodoList,
+    createTodo,
+    updateTodoState,
+    deleteTodo,
+  }
 })
