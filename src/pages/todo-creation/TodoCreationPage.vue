@@ -1,6 +1,9 @@
 <template>
-  <main class="container-child grid justify-center align-center">
+  <!-- Container principal da página -->
+  <main class="grid justify-center align-center">
+    <!-- Formulário para a inserção e envio de dados do todo -->
     <form class="grid gap-1" @submit.prevent="createTodo">
+      <!-- Input de texto do todo -->
       <TextInputs
         input-id="todo"
         input-name="todo"
@@ -10,6 +13,7 @@
         label-text="Todo"
         @recover-value="todoText = $event"
       ></TextInputs>
+      <!-- Select de tipo do todo -->
       <Select
         input-id="todo-type"
         input-name="todo-type"
@@ -22,6 +26,7 @@
         required
         @recover-value="todoType = $event"
       ></Select>
+      <!-- Textarea de descrição do todo -->
       <TextInputs
         input-id="todo-description"
         input-name="todo-description"
@@ -31,6 +36,7 @@
         label-text="Todo"
         @recover-value="todoDesc = $event"
       ></TextInputs>
+      <!-- Botão de envio do formulário -->
       <Button button-text="Create"></Button>
     </form>
   </main>
@@ -41,22 +47,36 @@
 import TextInputs from "@/components/forms/TextInputs.vue"
 import Select from "@/components/forms/Select.vue"
 import Button from "@/components/forms/Button.vue"
-import { ref, type Ref } from "vue"
-import { useTodoStore } from "@/stores/todoStore"
-import { useAuthStore } from "@/stores/authStore"
-import type { Todo } from "@/interfaces/ITodo"
-import type { TodoType } from "@/types/TodoType"
+
+// Importações do vue
+import { ref } from "vue"
+
+// Importações de pacotes
 import { useRouter } from "vue-router"
 
+// Importação de stores
+import { useTodoStore } from "@/stores/todoStore"
+import { useAuthStore } from "@/stores/authStore"
+
+// Importação de tipos
+import type { Ref } from "vue"
+import type { Router } from "vue-router"
+import type { Todo } from "@/interfaces/ITodo"
+import type { TodoType } from "@/types/TodoType"
+
+// Declaração das stores e router
 const authStore = useAuthStore()
 const todoStore = useTodoStore()
-const router = useRouter()
+const router: Router = useRouter()
 
-const todoText = ref("")
+// Recuperando os dados do todo do formulário
+const todoText: Ref<string> = ref("")
 const todoType: Ref<TodoType> = ref("")
-const todoDesc = ref("")
+const todoDesc: Ref<string> = ref("")
 
-async function createTodo() {
+// Função para criação de todos
+async function createTodo(): Promise<void> {
+  // Cria um novo todo baseado nos dados do formulário e outros dados (data, boleano padrão e userId)
   const newTodo: Todo = {
     id: new Date().getTime().toString(),
     isChecked: false,
@@ -65,29 +85,28 @@ async function createTodo() {
     todoType: todoType.value,
     userId: authStore.user.id ? authStore.user.id : "",
   }
-  if (newTodo.userId) {
-    if (await todoStore.createTodo(newTodo)) {
-      alert("Todo created with success")
-      todoStore.showTodoTypes.splice(0, todoStore.showTodoTypes.length)
-      todoStore.showTodoTypes.push(newTodo.todoType)
-      localStorage.setItem(
-        "showTodoTypes",
-        JSON.stringify(todoStore.showTodoTypes)
-      )
-      todoStore.showTodoAvaiability = "active"
-      localStorage.setItem("showTodoAvaiability", "active")
-      router.push({ name: "todo-list" })
-    }
+  // Tenta criar o todo no banco
+  if (await todoStore.createTodo(newTodo)) {
+    // Caso consiga, mostra uma mensagem para o usuário
+    alert("Todo created with success")
+    // Troca os todoTypes para mostrar somente o tipo que acaba de ser inserido
+    todoStore.changeShowTodoTypes([newTodo.todoType], true)
+    // Troca a todoAvaiabitilty para mostrar somente os todos ativos
+    todoStore.changeShowTodoAvaiability("active")
+    // Leva o usuário para a rota de listagem de todos
+    router.push({ name: "todo-list" })
+  } else {
+    // Caso não consiga criar, mostra essa mensagem
+    alert(
+      "It wans't possible to create a new todo in the database\nPlease, try again later"
+    )
   }
 }
 </script>
 
 <style scoped>
-.container-child {
-  grid-area: main;
-}
-
 main {
+  grid-area: main;
   margin: 3.125rem 5rem;
   padding: 1rem;
   border: 1px solid var(--todo-border-color);

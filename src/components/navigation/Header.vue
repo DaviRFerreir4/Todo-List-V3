@@ -11,12 +11,14 @@
         id="mode-icon"
         @click="mode = toggleMode()"
       />
+      <!-- Spans caso o usuário esteja logado -->
       <div class="flex align-center gap-2" v-if="authStore.isLoggedIn">
         <!-- Span de usuário -->
         <span>Hello, {{ authStore.user.username?.name }}</span>
         <!-- Span de logout -->
         <span @click="authStore.logout(true)">Logout</span>
       </div>
+      <!-- Span da rota de "Access Denied" -->
       <span v-else>Not cool man :(</span>
     </div>
   </header>
@@ -33,8 +35,10 @@ import { ref } from "vue"
 // Importações de tipos
 import type { Ref } from "vue"
 
+// Declaração da stroe
 const authStore = useAuthStore()
 
+// Variável que recebe o modo do localstorage
 const mode: Ref<string | null> = ref(localStorage.getItem("mode"))
 </script>
 

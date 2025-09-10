@@ -71,8 +71,7 @@ const showFeatures: Ref<boolean> = ref(false)
 const router: Router = useRouter()
 
 // Watch que monitora a rota
-
-watch(router.currentRoute, () => {
+watch(router.currentRoute, (): void => {
   if (router.currentRoute.value.name === "todo-list") {
     // Caso a rota seja "todo-list", muda showFeatures para verdadeiro
     showFeatures.value = true
@@ -86,8 +85,8 @@ watch(router.currentRoute, () => {
 <style scoped>
 aside {
   grid-area: aside;
-  border: 1px solid var(--todo-border-color);
   padding: 1rem 1.5rem;
+  border: 1px solid var(--todo-border-color);
 
   background-color: var(--todo-bg-color);
 
@@ -95,8 +94,9 @@ aside {
   transition-duration: 0.35s;
 
   h2 {
-    font: var(--font-xl);
     margin-bottom: 1rem;
+
+    font: var(--font-xl);
   }
 
   hr {
@@ -114,7 +114,7 @@ aside {
       grid-template-rows: 0fr;
       margin-left: 2rem;
 
-      transition: 300ms ease-in-out;
+      transition: grid-template-rows 0.35s;
 
       & > div {
         overflow: hidden;

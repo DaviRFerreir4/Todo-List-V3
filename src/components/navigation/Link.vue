@@ -6,10 +6,11 @@
     <!-- Subtitulo -->
     <span>{{ props.subtitle }}</span>
   </router-link>
+  <!-- Link caso a prop de link não seja passada (para o caso de uma feature) -->
   <a
-    @click="defineFeature"
+    @click="executeFeature"
     :class="props.feature === todoStore.showTodoAvaiability ? 'choosed' : ''"
-    v-else
+    v-else-if="props.feature"
   >
     <!-- Título -->
     <h3>{{ props.title }}</h3>
@@ -19,11 +20,14 @@
 </template>
 
 <script setup lang="ts">
-// Importando tipos
+// Importando a store de todos
 import { useTodoStore } from "@/stores/todoStore"
-import type { RouteLocationNormalizedLoadedGeneric } from "vue-router"
-import Todos from "../todos/Todos.vue"
 
+// Importando tipos
+import type { RouteLocationNormalizedLoadedGeneric } from "vue-router"
+import type { Features } from "@/types/Features"
+
+// Declarando a store de todos
 const todoStore = useTodoStore()
 
 // Recebendo props do elemento pai
@@ -31,41 +35,36 @@ const props = defineProps<{
   title: string
   subtitle: string
   link?: Pick<RouteLocationNormalizedLoadedGeneric, "name">
-  feature?: string
+  feature?: Features
 }>()
 
-function defineFeature() {
+// Função de click das features
+function executeFeature() {
   if (props.feature) {
-    if (props.feature !== "clear") {
-      todoStore.showTodoAvaiability = props.feature
-      localStorage.setItem("showTodoAvaiability", props.feature)
-    } else {
-      const todosToDelete = todoStore.todoList.filter((todo) => todo.isChecked)
-      todosToDelete.forEach((todo) => {
-        todoStore.deleteTodo(todo.id)
-      })
-    }
+    todoStore.features(props.feature)
   }
-  console.log(todoStore.showTodoAvaiability)
 }
 </script>
 
 <style scoped>
-h3 {
-  font: var(--font-md);
-}
-
-span {
-  font: var(--font-sm);
-  color: var(--font-color);
-}
-
 a {
-  cursor: pointer;
   padding-left: 0.5rem;
-}
 
-.choosed {
-  border-left: 4px solid var(--link);
+  cursor: pointer;
+
+  transition: border 0.35s;
+
+  h3 {
+    font: var(--font-md);
+  }
+
+  span {
+    font: var(--font-sm);
+    color: var(--font-color);
+  }
+
+  &.choosed {
+    border-left: 4px solid var(--link);
+  }
 }
 </style>

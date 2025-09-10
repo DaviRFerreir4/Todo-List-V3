@@ -50,7 +50,9 @@ const props = defineProps<{
 
 // Definindo a variável referente ao valor do input e emit caso o valor mude
 const inputValue: Ref<boolean> = ref(false)
-const emits = defineEmits(["recoverValue"])
+const emits = defineEmits<{
+  recoverValue: [boolean]
+}>()
 </script>
 
 <style scoped>
@@ -58,10 +60,10 @@ input[type="checkbox"] {
   all: unset;
   width: 1rem;
   height: 1rem;
-  border: 1px solid var(--todo-border-color);
-  border-radius: 0.25rem;
   grid-row: 1/2;
   grid-column: 1/2;
+  border: 1px solid var(--todo-border-color);
+  border-radius: 0.25rem;
 
   background-color: var(--bg-color);
 

@@ -47,7 +47,9 @@ const props = defineProps<{
 
 // Definindo a variável referente ao valor do input e emit caso o valor mude
 const inputValue: Ref<string> = ref("")
-const emits = defineEmits(["recoverValue"])
+const emits = defineEmits<{
+  recoverValue: [string]
+}>()
 </script>
 
 <style scoped>
@@ -55,8 +57,8 @@ input[type="text"],
 input[type="password"],
 textarea {
   all: unset;
-  padding: 0.75rem 1rem;
   width: 17rem;
+  padding: 0.75rem 1rem;
   border: 1px solid var(--todo-border-color);
   border-radius: 0.5rem;
 

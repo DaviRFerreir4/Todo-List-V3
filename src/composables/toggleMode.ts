@@ -3,8 +3,8 @@ import logoDark from "@/assets/todo-logo-dark.svg"
 import logoLight from "@/assets/todo-logo-light.svg"
 import logoDarkCut from "@/assets/todo-logo-dark-cut.svg"
 import logoLightCut from "@/assets/todo-logo-light-cut.svg"
-import iconDark from "@/assets/icons/icon-moon.svg"
-import iconLight from "@/assets/icons/icon-sun.svg"
+import iconDark from "@/assets/icons/moon.svg"
+import iconLight from "@/assets/icons/sun.svg"
 
 // Função para trocar modo
 export function toggleMode(): string | null {

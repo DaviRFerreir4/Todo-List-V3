@@ -7,7 +7,7 @@
       (router.currentRoute.value.name === 'no-access' ? 'no-access' : '')
     "
   >
-    <!-- Header só é mostrado quando usuário está logado -->
+    <!-- Header só é mostrado quando usuário está logado ou na rota "No Access/Access Denied" -->
     <Header
       v-if="
         authStore.isLoggedIn || router.currentRoute.value.name === 'no-access'
@@ -31,12 +31,18 @@ import { onBeforeMount, watch } from "vue"
 // Importação de pacotes
 import { useRouter } from "vue-router"
 
-// Importação da store de autenticação
+// Importação das stores
 import { useAuthStore } from "./stores/authStore"
+import { useTodoStore } from "@/stores/todoStore"
 
-// Declaração da store de autenticação e da variavel de controle de rota
-const router = useRouter()
+// Importação de tipos
+import type { Router } from "vue-router"
+import type { Todo } from "@/interfaces/ITodo"
+
+// Declaração das stores e da variavel de controle de rota
 const authStore = useAuthStore()
+const todoStore = useTodoStore()
+const router: Router = useRouter()
 
 // Método para retirar transições da página antes de carregamento dela (pra se caso o usuário estiver no modo escuro não ter transição quando ele entrar no app novamente)
 onBeforeMount(() => {
@@ -58,19 +64,21 @@ onBeforeMount(() => {
   }
 })
 
-import { useTodoStore } from "@/stores/todoStore"
-import type { Todo } from "@/interfaces/ITodo"
-
-const todoStore = useTodoStore()
-
+// Watch que observa se o usuário logou
 watch(authStore.user, async () => {
   if (authStore.isLoggedIn) {
+    // Caso o usuário tenha logado, recupera os todos dele
     const todos: Todo[] | null = await todoStore.getData(authStore.user.id)
     if (todos) {
-      const userTodos: Todo[] = todos.filter(
-        (todo) => todo.userId === authStore.user.id
+      if (todos.length > 0) {
+        // Caso haja retorno do fetch e ele possua todos, popula a lista de todos da store com esse resultado
+        todoStore.populateTodoList(todos)
+      }
+    } else {
+      // Caso não haja retorno do fetch, mostra uma mensagem de erro
+      alert(
+        "It wasn't possible to recover your todo data from the database\nPlease, try again later"
       )
-      todoStore.populateTodoList(userTodos)
     }
   }
 })

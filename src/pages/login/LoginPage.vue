@@ -1,4 +1,5 @@
 <template>
+  <!-- Container principal da página -->
   <main class="grid gap-2">
     <!-- Icone de modo -->
     <img
@@ -59,12 +60,12 @@ import { ref } from "vue"
 // Importações de pactoes
 import { useRouter } from "vue-router"
 
-// Importação de tipos (primeiro de pacotes, depois próprios)
+// Importação de tipos
 import type { Ref } from "vue"
 import type { User } from "@/interfaces/IUser"
 import type { Router } from "vue-router"
 
-// Pegando o modo do localStorage
+// Recuperando o modo do localStorage
 const mode: Ref<null | string> = ref(localStorage.getItem("mode"))
 
 // Recuperando os dados do formulário
@@ -115,12 +116,11 @@ main {
   grid-column: 1/3;
   grid-row: 1/3;
   justify-items: center;
+  position: relative;
   margin: auto;
   padding: 1.5rem;
   border: 1px solid var(--todo-border-color);
   border-radius: 0.5rem;
-
-  position: relative;
 
   background-color: var(--todo-bg-color);
 

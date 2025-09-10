@@ -5,16 +5,17 @@ import TodoListPage from "@/pages/todo-list/TodoListPage.vue"
 import NotFoundPage from "@/pages/not-found/NotFoundPage.vue"
 import AccessDeniedPage from "@/pages/access-denied/AccessDeniedPage.vue"
 
-// Importações do router
+// Importações do vue-router para a criação do router
 import { createRouter, createWebHistory } from "vue-router"
 
-// Importação da store de autenticação
+// Importação das stores
 import { useAuthStore } from "@/stores/authStore"
+import { useTodoStore } from "@/stores/todoStore"
 
 // Importação do tipo personalizado "User"
 import type { User } from "@/interfaces/IUser"
-
-import { useTodoStore } from "@/stores/todoStore"
+import type { TodoType } from "@/types/TodoType"
+import type { Features } from "@/types/Features"
 
 export const router = createRouter({
   // Rotas baseadas em caminhos nomeados
@@ -63,8 +64,9 @@ export const router = createRouter({
   ],
 })
 
-// Conferência deautenticação antes de cada rota
-router.beforeEach(async (to) => {
+// Conferência de autenticação antes de cada rota
+router.beforeEach(async (to): Promise<boolean> => {
+  // Declaração da store de autenticação
   const authStore = useAuthStore()
 
   // Se usuário já está logado e está utilizando o sistema de navegação, permitir tráfego
@@ -84,6 +86,7 @@ router.beforeEach(async (to) => {
         cookie = element.substring(name.length + 1)
       }
     })
+    // Retorna o cookie (baseado na verificação do forEach acima. Caso tenha encontrado a chave retorna o valor, caso contrário retorna o cookie nulo)
     return cookie
   }
 
@@ -108,17 +111,21 @@ router.beforeEach(async (to) => {
         const [{ password, ...userNoPass }] = userMatch
         user = userNoPass
         authStore.login(userNoPass, true)
+
+        // Declara a todoStore
         const todoStore = useTodoStore()
+        // Recupera os todoTypes do localStorage dos dropdowns que estavam abertos na última sessão
         const showTodoTypes = localStorage.getItem("showTodoTypes")
         if (showTodoTypes) {
-          const showTodoTypesArray: string[] = JSON.parse(showTodoTypes)
-          showTodoTypesArray.forEach((element) => {
-            todoStore.showTodoTypes.push(element)
-          })
+          // Se houverem dropdowns abertos na última sessão, transforma eles em uma array e envia esses dados para a todoStore adicionar na variável de controle de todoTypes com dropdown abertos
+          const showTodoTypesArray: TodoType[] = JSON.parse(showTodoTypes)
+          todoStore.changeShowTodoTypes(showTodoTypesArray, false, true)
         }
+        // Recupera a todoAvaiability do localstorage da feature sendo utilizada na última sessão
         const showTodoAvaiability = localStorage.getItem("showTodoAvaiability")
         if (showTodoAvaiability) {
-          todoStore.showTodoAvaiability = showTodoAvaiability
+          // Se houver uma feature personalizada sendo utilizada na última sessão, envia esse dado para a todoStore adicionar na variável de controle de todoAvaibility
+          todoStore.changeShowTodoAvaiability(<Features>showTodoAvaiability)
         }
       }
     } else {
