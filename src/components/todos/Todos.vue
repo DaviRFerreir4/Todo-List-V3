@@ -78,11 +78,12 @@ const checkboxValue: Ref<boolean> = ref(props.todoIsChecked)
 
 // Função para alterar o estado do todo
 async function updateTodoState(value: boolean) {
-  if (!todoStore.updateTodoState(props.todoId, value)) {
+  if (!(await todoStore.updateTodoState(props.todoId, value))) {
     // Se a operação de alterar o estado do todo foi uma falha, mostra um alerta de falha
     alert(
       "It wans't possible to update the todo state in the database\nPlease, try again later"
     )
+    checkboxValue.value = !value
   }
 }
 

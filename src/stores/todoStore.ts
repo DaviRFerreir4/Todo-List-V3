@@ -86,7 +86,9 @@ export const useTodoStore = defineStore("todoStore", () => {
           body: JSON.stringify({ isChecked: value }),
         })
       ) {
-        // Caso a operação de PATCH do fetch seja um sucesso, retorna true
+        // Caso a operação de PATCH do fetch seja um sucesso, muda o estado do todo na lista e retorna true
+        const index = todoList.findIndex((todo) => todo.id === todoId)
+        todoList[index].isChecked = value
         return true
       }
     } catch (error) {
@@ -120,18 +122,24 @@ export const useTodoStore = defineStore("todoStore", () => {
   }
 
   // Função para executar as features da página de listagem de todos
-  function features(feature: Features): void {
+  async function features(feature: Features): Promise<boolean> {
     if (feature !== "clear") {
       // Se a feature não for "clear", simplesmente atualiza o valor da variável de filtro de todoAvaiability na todoStore e no localStorage
       showTodoAvaiability.value = feature
       localStorage.setItem("showTodoAvaiability", feature)
     } else {
       const todosToDelete = todoList.filter((todo) => todo.isChecked)
-      todosToDelete.forEach((todo) => {
-        // Se a feature for "clear", filtra os elementos a serem deletados (todos os todos checados) e utiliza a função de deletar todos para cada um dos itens
-        deleteTodo(todo.id)
-      })
+      try {
+        await todosToDelete.forEach(async (todo) => {
+          // Se a feature for "clear", filtra os elementos a serem deletados (todos os todos checados) e utiliza a função de deletar todos para cada um dos itens
+          await deleteTodo(todo.id)
+        })
+        return true
+      } catch (error) {
+        console.log(error)
+      }
     }
+    return false
   }
 
   // Função para trocar o os tipos de todos com os dropdowns abertos

@@ -39,9 +39,31 @@ const props = defineProps<{
 }>()
 
 // Função de click das features
-function executeFeature() {
+async function executeFeature() {
   if (props.feature) {
-    todoStore.features(props.feature)
+    // Se houver uma feature, prossegue
+    if (props.feature !== "clear") {
+      // Se a feature não for "clear", executa o que elas fariam
+      todoStore.features(props.feature)
+    } else {
+      if (
+        window.confirm("Do you realy want to delete all the completed todos?")
+      ) {
+        // Se a feature for "clear", pede confirmação para prosseguir
+        if (await todoStore.features(props.feature)) {
+          // Se prosseguir e a operação foi concluída, mostra uma mensagem de conclusão
+          alert("Operation completed with success")
+        } else {
+          // Se prosseguir e a operação não for concluída, mostra uma mensagem de erro
+          alert(
+            "Something went wrong during this operation\nPlease, try again later"
+          )
+        }
+      } else {
+        // Se a operação for cancelada, mostra uma mensagem de cancelamento
+        alert("Operation canceled")
+      }
+    }
   }
 }
 </script>
